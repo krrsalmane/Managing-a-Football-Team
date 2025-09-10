@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_PLAYERS 100
+#define MAX_PLAYERS 24
 
 struct Player {
     int id;
@@ -27,7 +27,7 @@ struct Player addPlayer() {
     printf("Enter shirt number: ");
     scanf("%d", &p.shirtNumber);
 
-    // Position selection menu
+
     int posChoice;
     printf("\nSelect position:\n");
     printf("1 - Goalkeeper\n");
@@ -61,10 +61,10 @@ struct Player addPlayer() {
     printf("Enter how many goals: ");
     scanf("%d", &p.goals);
 
-    // Basic validation
+
     if (p.age < 0 || p.goals < 0 || p.shirtNumber < 0) {
         printf("Invalid input! Age, goals, and shirt number must be non-negative.\n");
-        p.id = 0; // Mark as invalid
+        p.id = 0;
     }
 
     return p;
@@ -193,7 +193,7 @@ int main() {
             break;
 
         case 7:
-            printf("Sayonara !!\n");
+            printf(" ===   Sayonara   === !!!!\n");
             break;
 
         default:
