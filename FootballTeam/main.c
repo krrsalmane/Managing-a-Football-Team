@@ -86,11 +86,30 @@ void displayPlayers() {
     }
 }
 
+void deletePlayer(int id) {
+    int found = 0;
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].id == id) {
+            found = 1;
+            for (int j = i; j < playerCount - 1; j++) {
+                team[j] = team[j + 1];
+            }
+            playerCount--;
+            printf("Player with ID %d deleted successfully!\n", id);
+            break;
+        }
+    }
+    if (!found) {
+        printf("Player with ID %d not found!\n", id);
+    }
+}
+
+
 int main() {
     int choice, choice2;
 
     do {
-        printf("\n===== Football Team Management =====\n");
+        printf("\n ===== Football Team Management ===== \n");
         printf("1 - Add a Player\n");
         printf("2 - Display Players\n");
         printf("3 - Delete Player\n");
@@ -107,7 +126,7 @@ int main() {
 
         switch (choice) {
         case 1:
-            printf("\n1 - Add a new Player\n");
+            printf("\n 1 - Add a new Player\n");
             printf("2 - Add multiple Players\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
@@ -134,7 +153,7 @@ int main() {
             break;
 
         case 2:
-            printf("\n1 - Display all Players\n");
+            printf("\n 1 - Display all Players\n");
             printf("2 - Sort Players by Name\n");
             printf("3 - Sort Players by Age\n");
             printf("4 - Display Players by Position\n");
@@ -161,7 +180,11 @@ int main() {
             break;
 
         case 3:
-            printf("Delete a Player by ID:\n");
+
+           printf("Enter Player ID to delete: ");
+            int id;
+            scanf("%d", &id);
+            deletePlayer(id);
             break;
 
         case 4:
