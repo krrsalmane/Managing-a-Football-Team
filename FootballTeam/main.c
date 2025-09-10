@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_PLAYERS 100 // Define MAX_PLAYERS
+#define MAX_PLAYERS 100
 
 struct Player {
     int id;
@@ -16,7 +16,7 @@ int nextid = 1;
 struct Player team[MAX_PLAYERS];
 int playerCount = 0;
 
-struct Player addPlayer() { // Fixed syntax
+struct Player addPlayer() {
     struct Player p;
     p.id = nextid++;
 
@@ -26,8 +26,36 @@ struct Player addPlayer() { // Fixed syntax
     scanf("%s", p.lastName);
     printf("Enter shirt number: ");
     scanf("%d", &p.shirtNumber);
-    printf("Enter position: ");
-    scanf("%s", p.position);
+
+    // Position selection menu
+    int posChoice;
+    printf("\nSelect position:\n");
+    printf("1 - Goalkeeper\n");
+    printf("2 - Defender\n");
+    printf("3 - Midfielder\n");
+    printf("4 - Forward\n");
+    printf("Enter choice (1-4): ");
+    scanf("%d", &posChoice);
+
+    switch (posChoice) {
+        case 1:
+            strcpy(p.position, "Goalkeeper");
+            break;
+        case 2:
+            strcpy(p.position, "Defender");
+            break;
+        case 3:
+            strcpy(p.position, "Midfielder");
+            break;
+        case 4:
+            strcpy(p.position, "Forward");
+            break;
+        default:
+            printf("Invalid choice! Defaulting to Forward.\n");
+            strcpy(p.position, "Forward");
+            break;
+    }
+
     printf("Enter age: ");
     scanf("%d", &p.age);
     printf("Enter how many goals: ");
@@ -36,13 +64,13 @@ struct Player addPlayer() { // Fixed syntax
     // Basic validation
     if (p.age < 0 || p.goals < 0 || p.shirtNumber < 0) {
         printf("Invalid input! Age, goals, and shirt number must be non-negative.\n");
-        p.id = 0; // Mark as invalid (optional handling)
+        p.id = 0; // Mark as invalid
     }
 
     return p;
 }
 
-void displayPlayers() { // Removed unused parameter
+void displayPlayers() {
     if (playerCount == 0) {
         printf("No players added yet!\n");
         return;
@@ -88,7 +116,7 @@ int main() {
             case 1:
                 if (playerCount < MAX_PLAYERS) {
                     team[playerCount] = addPlayer();
-                    if (team[playerCount].id != 0) { // Check for valid player
+                    if (team[playerCount].id != 0) {
                         playerCount++;
                         printf("Player added successfully!\n");
                     }
@@ -115,7 +143,7 @@ int main() {
 
             switch (choice2) {
             case 1:
-                displayPlayers(); // Fixed call
+                displayPlayers();
                 break;
             case 2:
                 printf("Players sorted by Name:\n");
