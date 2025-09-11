@@ -69,6 +69,31 @@ struct Player addPlayer() {
 
     return p;
 }
+
+void addMultiplePlayers() {
+    int numPlayers;
+    printf("How many players to add? ");
+    scanf("%d", &numPlayers);
+    if (numPlayers <= 0) {
+        printf("Number of players must be positive!\n");
+        return;
+    }
+    if (playerCount + numPlayers > MAX_PLAYERS) {
+        printf("Cannot add %d players, only %d spots left!\n", numPlayers, MAX_PLAYERS - playerCount);
+        return;
+    }
+    for (int i = 0; i < numPlayers; i++) {
+        printf("\nAdding player %d of %d:\n", i + 1, numPlayers);
+        struct Player p = addPlayer();
+        if (p.id != 0) { // Check if player is valid
+            team[playerCount++] = p;
+            printf("Player added!\n");
+        } else {
+            printf("Player not added due to invalid input.\n");
+        }
+    }
+}
+
 void displayPlayersByPosition() {
     int posChoice;
     int found = 0;
@@ -298,6 +323,78 @@ void totalPlayers() {
     printf("Total number of players: %d\n", playerCount);
 }
 
+// Stats function 2: Average age of players
+void averageAge() {
+    if (playerCount == 0) {
+        printf("No players to calculate average age!\n");
+        return;
+    }
+    int totalAge = 0;
+    for (int i = 0; i < playerCount; i++) {
+        totalAge += team[i].age;
+    }
+    float avgAge = (float)totalAge / playerCount;
+    printf("Average age of players: %.1f years\n", avgAge);
+}
+
+void playersWithMoreThanXGoals(int x) {
+    int found = 0;
+    printf("Players with more than %d goals:\n", x);
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].goals > x) {
+            found = 1;
+            printf("ID: %d, Name: %s %s, Goals: %d\n",
+                   team[i].id, team[i].firstName, team[i].lastName, team[i].goals);
+        }
+    }
+    if (!found) {
+        printf("No players with more than %d goals!\n", x);
+    }
+}
+
+void bestScorer() {
+    if (playerCount == 0) {
+        printf("No players to find best scorer!\n");
+        return;
+    }
+    int maxGoals = -1;
+    int bestIndex = 0;
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].goals > maxGoals) {
+            maxGoals = team[i].goals;
+            bestIndex = i;
+        }
+    }
+    printf("Best scorer: %s %s (ID: %d) with %d goals\n",
+           team[bestIndex].firstName, team[bestIndex].lastName,
+           team[bestIndex].id, team[bestIndex].goals);
+}
+
+void youngestAndOldestPlayer() {
+    if (playerCount == 0) {
+        printf("No players to find youngest and oldest!\n");
+        return;
+    }
+    int minAge = team[0].age;
+    int maxAge = team[0].age;
+    int minIndex = 0;
+    int maxIndex = 0;
+    for (int i = 1; i < playerCount; i++) {
+        if (team[i].age < minAge) {
+            minAge = team[i].age;
+            minIndex = i;
+        }
+        if (team[i].age > maxAge) {
+            maxAge = team[i].age;
+            maxIndex = i;
+        }
+    }
+    printf("Youngest player: %s %s (ID: %d, Age: %d)\n",
+           team[minIndex].firstName, team[minIndex].lastName, team[minIndex].id, minAge);
+    printf("Oldest player: %s %s (ID: %d, Age: %d)\n",
+           team[maxIndex].firstName, team[maxIndex].lastName, team[maxIndex].id, maxAge);
+}
+
 int main() {
 
    struct Player fakeData[] = {
@@ -369,7 +466,7 @@ int main() {
                 }
                 break;
             case 2:
-                printf("Add multiple Players:\n");
+                addMultiplePlayers();
                 break;
             default:
                 printf("Invalid choice!\n");
@@ -476,7 +573,7 @@ int main() {
                     printf("Enter number of goals: ");
                     int x;
                     scanf("%d", &x);
-                   // playersWithMoreThanXGoals(x);
+                    playersWithMoreThanXGoals(x);
                 } else {
                     switch (choice2) {
                         case 1: totalPlayers(); break;
