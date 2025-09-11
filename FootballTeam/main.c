@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAX_PLAYERS 24
 
 struct Player {
@@ -16,17 +17,35 @@ int nextid = 1;
 struct Player team[MAX_PLAYERS];
 int playerCount = 0;
 
+
+
+int isShirtNumberUnique(int shirtNumber) {
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].shirtNumber == shirtNumber) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 struct Player addPlayer() {
     struct Player p;
     p.id = nextid++;
 
     printf("Enter first name: ");
     scanf("%s", p.firstName);
+    getchar();
     printf("Enter last name: ");
     scanf("%s", p.lastName);
+    getchar();
     printf("Enter shirt number: ");
     scanf("%d", &p.shirtNumber);
-
+    getchar();
+    if (!isShirtNumberUnique(p.shirtNumber)) {
+        printf("Shirt number %d is already taken!\n", p.shirtNumber);
+        p.id = 0;
+        return p;
+    }
 
     int posChoice;
     printf("\nSelect position:\n");
@@ -36,6 +55,7 @@ struct Player addPlayer() {
     printf("4 - Forward\n");
     printf("Enter choice (1-4): ");
     scanf("%d", &posChoice);
+    getchar();
 
     switch (posChoice) {
         case 1:
@@ -58,9 +78,10 @@ struct Player addPlayer() {
 
     printf("Enter age: ");
     scanf("%d", &p.age);
+    getchar();
     printf("Enter how many goals: ");
     scanf("%d", &p.goals);
-
+    getchar();
 
     if (p.age < 0 || p.goals < 0 || p.shirtNumber < 0) {
         printf("Invalid input! Age, goals, and shirt number must be non-negative.\n");
@@ -74,6 +95,7 @@ void addMultiplePlayers() {
     int numPlayers;
     printf("How many players to add? ");
     scanf("%d", &numPlayers);
+    getchar();
     if (numPlayers <= 0) {
         printf("Number of players must be positive!\n");
         return;
@@ -85,7 +107,7 @@ void addMultiplePlayers() {
     for (int i = 0; i < numPlayers; i++) {
         printf("\nAdding player %d of %d:\n", i + 1, numPlayers);
         struct Player p = addPlayer();
-        if (p.id != 0) { // Check if player is valid
+        if (p.id != 0) {
             team[playerCount++] = p;
             printf("Player added!\n");
         } else {
@@ -105,9 +127,9 @@ void displayPlayersByPosition() {
     printf("4 - Forward\n");
     printf("Enter choice (1-4): ");
     scanf("%d", &posChoice);
+    getchar();
 
     char pos[20];
-
     switch (posChoice) {
         case 1: strcpy(pos, "Goalkeeper"); break;
         case 2: strcpy(pos, "Defender"); break;
@@ -118,7 +140,6 @@ void displayPlayersByPosition() {
             return;
     }
 
-    // all players
     for (int i = 0; i < playerCount; i++) {
         if (strcmp(team[i].position, pos) == 0) {
             printf("\nPlayer %d Information:\n", i + 1);
@@ -137,13 +158,10 @@ void displayPlayersByPosition() {
     }
 }
 
-
 void sortPlayersByAge() {
     for (int i = 0; i < playerCount - 1; i++) {
         for (int j = 0; j < playerCount - i - 1; j++) {
             if (team[j].age > team[j + 1].age) {
-
-                // Swap players
                 struct Player temp = team[j];
                 team[j] = team[j + 1];
                 team[j + 1] = temp;
@@ -185,8 +203,7 @@ void deletePlayer(int id) {
     for (int i = 0; i < playerCount; i++) {
         if (team[i].id == id) {
             found = 1;
-            for (int j = i; j < playerCount - 1; j++)  // shifting step P2 to P1
-                {
+            for (int j = i; j < playerCount - 1; j++) {
                 team[j] = team[j + 1];
             }
             playerCount--;
@@ -198,24 +215,26 @@ void deletePlayer(int id) {
         printf("Player with ID %d not found!\n", id);
     }
 }
-void modifyPlayerGoals(int id){
-        int found = 0;
-        for(int i =0; i < playerCount;i++){
-            if (team[i].id == id){
-                found = 1;
-                printf("Enter the new goals scored for player ID %d: ",id);
-                int newGoals;
-                scanf("%d",&newGoals);
-                if(newGoals <= 0){
-                    printf(" Invalid goals !!");
-                    return;
-                }
-                team[i].goals=newGoals;
-                printf("numbers of goals updates successfully ");
-                break;
+
+void modifyPlayerGoals(int id) {
+    int found = 0;
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].id == id) {
+            found = 1;
+            printf("Enter the new goals scored for player ID %d: ", id);
+            int newGoals;
+            scanf("%d", &newGoals);
+            getchar();
+            if (newGoals < 0) {
+                printf("Invalid goals!\n");
+                return;
             }
+            team[i].goals = newGoals;
+            printf("Number of goals updated successfully!\n");
+            break;
         }
-        if (!found) {
+    }
+    if (!found) {
         printf("Player with ID %d not found!\n", id);
     }
 }
@@ -228,6 +247,7 @@ void modifyPlayerAge(int id) {
             printf("Enter new age for player ID %d: ", id);
             int newAge;
             scanf("%d", &newAge);
+            getchar();
             if (newAge < 0) {
                 printf("Invalid age! Age must be non-negative.\n");
                 return;
@@ -255,6 +275,7 @@ void modifyPlayerPosition(int id) {
             printf("Enter choice (1-4): ");
             int posChoice;
             scanf("%d", &posChoice);
+            getchar();
             switch (posChoice) {
                 case 1: strcpy(team[i].position, "Goalkeeper"); break;
                 case 2: strcpy(team[i].position, "Defender"); break;
@@ -271,10 +292,11 @@ void modifyPlayerPosition(int id) {
     }
 }
 
-void searchPlayerByID() {
+void searchPlayerById() {
     int id, found = 0;
     printf("Enter Player ID to search: ");
     scanf("%d", &id);
+    getchar();
 
     for (int i = 0; i < playerCount; i++) {
         if (team[i].id == id) {
@@ -300,9 +322,10 @@ void searchPlayerByName() {
     int found = 0;
     printf("Enter Player Last Name to search: ");
     scanf("%s", name);
+    getchar();
 
     for (int i = 0; i < playerCount; i++) {
-        if (strcmp(team[i].lastName, name) == 0) {
+        if (strcasecmp(team[i].lastName, name) == 0) {
             printf("\nPlayer Found:\n");
             printf("ID: %d\n", team[i].id);
             printf("Name: %s %s\n", team[i].firstName, team[i].lastName);
@@ -323,7 +346,6 @@ void totalPlayers() {
     printf("Total number of players: %d\n", playerCount);
 }
 
-// Stats function 2: Average age of players
 void averageAge() {
     if (playerCount == 0) {
         printf("No players to calculate average age!\n");
@@ -358,16 +380,18 @@ void bestScorer() {
         return;
     }
     int maxGoals = -1;
-    int bestIndex = 0;
+    printf("Best scorer(s):\n");
     for (int i = 0; i < playerCount; i++) {
         if (team[i].goals > maxGoals) {
             maxGoals = team[i].goals;
-            bestIndex = i;
         }
     }
-    printf("Best scorer: %s %s (ID: %d) with %d goals\n",
-           team[bestIndex].firstName, team[bestIndex].lastName,
-           team[bestIndex].id, team[bestIndex].goals);
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].goals == maxGoals) {
+            printf("%s %s (ID: %d) with %d goals\n",
+                   team[i].firstName, team[i].lastName, team[i].id, team[i].goals);
+        }
+    }
 }
 
 void youngestAndOldestPlayer() {
@@ -377,27 +401,28 @@ void youngestAndOldestPlayer() {
     }
     int minAge = team[0].age;
     int maxAge = team[0].age;
-    int minIndex = 0;
-    int maxIndex = 0;
     for (int i = 1; i < playerCount; i++) {
-        if (team[i].age < minAge) {
-            minAge = team[i].age;
-            minIndex = i;
-        }
-        if (team[i].age > maxAge) {
-            maxAge = team[i].age;
-            maxIndex = i;
+        if (team[i].age < minAge) minAge = team[i].age;
+        if (team[i].age > maxAge) maxAge = team[i].age;
+    }
+    printf("Youngest player(s):\n");
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].age == minAge) {
+            printf("%s %s (ID: %d, Age: %d)\n",
+                   team[i].firstName, team[i].lastName, team[i].id, team[i].age);
         }
     }
-    printf("Youngest player: %s %s (ID: %d, Age: %d)\n",
-           team[minIndex].firstName, team[minIndex].lastName, team[minIndex].id, minAge);
-    printf("Oldest player: %s %s (ID: %d, Age: %d)\n",
-           team[maxIndex].firstName, team[maxIndex].lastName, team[maxIndex].id, maxAge);
+    printf("Oldest player(s):\n");
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].age == maxAge) {
+            printf("%s %s (ID: %d, Age: %d)\n",
+                   team[i].firstName, team[i].lastName, team[i].id, team[i].age);
+        }
+    }
 }
 
 int main() {
-
-   struct Player fakeData[] = {
+    struct Player fakeData[] = {
         {1, 30, 50, 7, "Forward", "Cristiano", "Ronaldo"},
         {2, 28, 40, 10, "Forward", "Lionel", "Messi"},
         {3, 35, 0, 1, "Goalkeeper", "Manuel", "Neuer"},
@@ -425,11 +450,7 @@ int main() {
     }
     nextid = playerCount + 1;
 
-
-
-
     int choice, choice2;
-
     do {
         printf("\n ===== Football Team Management ===== \n");
         printf("1 - Add a Player\n");
@@ -441,6 +462,7 @@ int main() {
         printf("7 - Quit\n");
         printf("Select your choice: ");
         scanf("%d", &choice);
+        getchar();
 
         if (choice < 1 || choice > 7) {
             printf("Invalid choice!\n");
@@ -452,7 +474,7 @@ int main() {
             printf("2 - Add multiple Players\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
-
+            getchar();
             switch (choice2) {
             case 1:
                 if (playerCount < MAX_PLAYERS) {
@@ -481,7 +503,7 @@ int main() {
             printf("4 - Display Players by Position\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
-
+            getchar();
             switch (choice2) {
             case 1:
                 displayPlayers();
@@ -497,7 +519,6 @@ int main() {
             case 4:
                 displayPlayersByPosition();
                 break;
-
             default:
                 printf("Invalid choice!\n");
                 break;
@@ -505,30 +526,32 @@ int main() {
             break;
 
         case 3:
-
-           printf("Enter Player ID to delete: ");
+            printf("Enter Player ID to delete: ");
             int id;
             scanf("%d", &id);
+            getchar();
             deletePlayer(id);
             break;
 
         case 4:
-          printf("\nModify Player:\n");
+            printf("\nModify Player:\n");
             printf("1 - Modify Position\n");
             printf("2 - Modify Age\n");
             printf("3 - Modify Number of Goals\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
+            getchar();
             if (choice2 >= 1 && choice2 <= 3) {
                 printf("Enter Player ID to modify: ");
                 int id;
                 scanf("%d", &id);
+                getchar();
                 switch (choice2) {
                     case 1:
                         modifyPlayerPosition(id);
                         break;
                     case 2:
-                        modifyPlayerAge( id);
+                        modifyPlayerAge(id);
                         break;
                     case 3:
                         modifyPlayerGoals(id);
@@ -538,29 +561,25 @@ int main() {
                 printf("Invalid choice!\n");
             }
             break;
+
         case 5:
             printf("\nSearch Player:\n");
             printf("1 - By ID\n");
             printf("2 - By Name\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
+            getchar();
             if (choice2 == 1) {
-                printf("Enter Player ID to search: ");
-                int id;
-                scanf("%d", &id);
-                searchPlayerByID(id);
+                searchPlayerById();
             } else if (choice2 == 2) {
-                printf("Enter name to search: ");
-                char name[50];
-                scanf("%s", name);
-                searchPlayerByName(name);
+                searchPlayerByName();
             } else {
                 printf("Invalid choice!\n");
             }
             break;
 
         case 6:
-           printf("\nStats:\n");
+            printf("\nStats:\n");
             printf("1 - Total number of Players\n");
             printf("2 - Average Age of Players\n");
             printf("3 - Players with more than X Goals\n");
@@ -568,11 +587,13 @@ int main() {
             printf("5 - Youngest and Oldest Player\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
+            getchar();
             if (choice2 >= 1 && choice2 <= 5) {
                 if (choice2 == 3) {
                     printf("Enter number of goals: ");
                     int x;
                     scanf("%d", &x);
+                    getchar();
                     playersWithMoreThanXGoals(x);
                 } else {
                     switch (choice2) {
