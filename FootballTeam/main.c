@@ -104,6 +104,27 @@ void deletePlayer(int id) {
         printf("Player with ID %d not found!\n", id);
     }
 }
+void modifyPlayerGoals(int id){
+        int found = 0;
+        for(int i =0; i < playerCount;i++){
+            if (team[i].id == id){
+                found = 1;
+                printf("Enter the new goals scored for player ID %d: ",id);
+                int newGoals;
+                scanf("%d",&newGoals);
+                if(newGoals <= 0){
+                    printf(" Invalid goals !!");
+                    return;
+                }
+                team[i].goals=newGoals;
+                printf("numbers of goals updates successfully ");
+                break;
+            }
+        }
+        if (!found) {
+        printf("Player with ID %d not found!\n", id);
+    }
+}
 
 void modifyPlayerAge(int id) {
     int found = 0;
@@ -260,7 +281,7 @@ int main() {
                         modifyPlayerAge( id);
                         break;
                     case 3:
-
+                        modifyPlayerGoals(id);
                         break;
                 }
             } else {
