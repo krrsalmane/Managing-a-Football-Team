@@ -69,6 +69,49 @@ struct Player addPlayer() {
 
     return p;
 }
+void displayPlayersByPosition() {
+    int posChoice;
+    int found = 0;
+
+    printf("\nSelect position to display:\n");
+    printf("1 - Goalkeeper\n");
+    printf("2 - Defender\n");
+    printf("3 - Midfielder\n");
+    printf("4 - Forward\n");
+    printf("Enter choice (1-4): ");
+    scanf("%d", &posChoice);
+
+    char pos[20];
+
+    switch (posChoice) {
+        case 1: strcpy(pos, "Goalkeeper"); break;
+        case 2: strcpy(pos, "Defender"); break;
+        case 3: strcpy(pos, "Midfielder"); break;
+        case 4: strcpy(pos, "Forward"); break;
+        default:
+            printf("Invalid choice!\n");
+            return;
+    }
+
+    // all players
+    for (int i = 0; i < playerCount; i++) {
+        if (strcmp(team[i].position, pos) == 0) {
+            printf("\nPlayer %d Information:\n", i + 1);
+            printf("ID: %d\n", team[i].id);
+            printf("Name: %s %s\n", team[i].firstName, team[i].lastName);
+            printf("Shirt Number: %d\n", team[i].shirtNumber);
+            printf("Position: %s\n", team[i].position);
+            printf("Age: %d\n", team[i].age);
+            printf("Goals: %d\n", team[i].goals);
+            found = 1;
+        }
+    }
+
+    if (found == 0) {
+        printf("\nNo players found in position: %s\n", pos);
+    }
+}
+
 
 void sortPlayersByAge() {
     for (int i = 0; i < playerCount - 1; i++) {
@@ -263,14 +306,18 @@ int main() {
 
             switch (choice2) {
             case 1:
-                sortPlayersByName();
                 displayPlayers();
                 break;
             case 2:
-                sortPlayersByAge();
+                sortPlayersByName();
                 displayPlayers();
                 break;
             case 3:
+                sortPlayersByAge();
+                displayPlayers();
+                break;
+            case 4:
+                displayPlayersByPosition();
 
                 break;
 
