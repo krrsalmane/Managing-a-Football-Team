@@ -294,6 +294,9 @@ void searchPlayerByName() {
     }
 }
 
+void totalPlayers() {
+    printf("Total number of players: %d\n", playerCount);
+}
 
 int main() {
 
@@ -460,7 +463,7 @@ int main() {
             break;
 
         case 6:
-            printf("\nStats:\n");
+           printf("\nStats:\n");
             printf("1 - Total number of Players\n");
             printf("2 - Average Age of Players\n");
             printf("3 - Players with more than X Goals\n");
@@ -468,6 +471,23 @@ int main() {
             printf("5 - Youngest and Oldest Player\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
+            if (choice2 >= 1 && choice2 <= 5) {
+                if (choice2 == 3) {
+                    printf("Enter number of goals: ");
+                    int x;
+                    scanf("%d", &x);
+                   // playersWithMoreThanXGoals(x);
+                } else {
+                    switch (choice2) {
+                        case 1: totalPlayers(); break;
+                        case 2: averageAge(); break;
+                        case 4: bestScorer(); break;
+                        case 5: youngestAndOldestPlayer(); break;
+                    }
+                }
+            } else {
+                printf("Invalid choice!\n");
+            }
             break;
 
         case 7:
