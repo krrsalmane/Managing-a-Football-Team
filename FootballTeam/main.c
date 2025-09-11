@@ -91,7 +91,8 @@ void deletePlayer(int id) {
     for (int i = 0; i < playerCount; i++) {
         if (team[i].id == id) {
             found = 1;
-            for (int j = i; j < playerCount - 1; j++) {
+            for (int j = i; j < playerCount - 1; j++)  // shifting step P2 to P1
+                {
                 team[j] = team[j + 1];
             }
             playerCount--;
@@ -103,6 +104,37 @@ void deletePlayer(int id) {
         printf("Player with ID %d not found!\n", id);
     }
 }
+
+void modifyPlayerPosition(int id) {
+    int found = 0;
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].id == id) {
+            found = 1;
+            printf("\nSelect new position for player ID %d:\n", id);
+            printf("1 - Goalkeeper\n");
+            printf("2 - Defender\n");
+            printf("3 - Midfielder\n");
+            printf("4 - Forward\n");
+            printf("Enter choice (1-4): ");
+            int posChoice;
+            scanf("%d", &posChoice);
+            switch (posChoice) {
+                case 1: strcpy(team[i].position, "Goalkeeper"); break;
+                case 2: strcpy(team[i].position, "Defender"); break;
+                case 3: strcpy(team[i].position, "Midfielder"); break;
+                case 4: strcpy(team[i].position, "Forward"); break;
+                default: printf("Invalid choice! Position unchanged.\n"); return;
+            }
+            printf("Position updated successfully!\n");
+            break;
+        }
+    }
+    if (!found) {
+        printf("Player with ID %d not found!\n", id);
+    }
+}
+
+
 
 
 int main() {
@@ -126,7 +158,7 @@ int main() {
 
         switch (choice) {
         case 1:
-            printf("\n 1 - Add a new Player\n");
+            printf("\n1 - Add a new Player\n");
             printf("2 - Add multiple Players\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
@@ -188,12 +220,30 @@ int main() {
             break;
 
         case 4:
-            printf("\nModify Player:\n");
+          printf("\nModify Player:\n");
             printf("1 - Modify Position\n");
             printf("2 - Modify Age\n");
             printf("3 - Modify Number of Goals\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
+            if (choice2 >= 1 && choice2 <= 3) {
+                printf("Enter Player ID to modify: ");
+                int id;
+                scanf("%d", &id);
+                switch (choice2) {
+                    case 1:
+                        modifyPlayerPosition(id);
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                }
+            } else {
+                printf("Invalid choice!\n");
+            }
             break;
 
         case 5:
