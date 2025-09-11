@@ -270,8 +270,29 @@ void searchPlayerByID() {
     }
 }
 
+void searchPlayerByName() {
+    char name[50];
+    int found = 0;
+    printf("Enter Player Last Name to search: ");
+    scanf("%s", name);
 
+    for (int i = 0; i < playerCount; i++) {
+        if (strcmp(team[i].lastName, name) == 0) {
+            printf("\nPlayer Found:\n");
+            printf("ID: %d\n", team[i].id);
+            printf("Name: %s %s\n", team[i].firstName, team[i].lastName);
+            printf("Shirt Number: %d\n", team[i].shirtNumber);
+            printf("Position: %s\n", team[i].position);
+            printf("Age: %d\n", team[i].age);
+            printf("Goals: %d\n", team[i].goals);
+            found = 1;
+        }
+    }
 
+    if (!found) {
+        printf("No player found with Last Name: %s\n", name);
+    }
+}
 
 
 int main() {
@@ -417,13 +438,25 @@ int main() {
                 printf("Invalid choice!\n");
             }
             break;
-
         case 5:
             printf("\nSearch Player:\n");
             printf("1 - By ID\n");
             printf("2 - By Name\n");
             printf("Select your choice: ");
             scanf("%d", &choice2);
+            if (choice2 == 1) {
+                printf("Enter Player ID to search: ");
+                int id;
+                scanf("%d", &id);
+                searchPlayerByID(id);
+            } else if (choice2 == 2) {
+                printf("Enter name to search: ");
+                char name[50];
+                scanf("%s", name);
+                searchPlayerByName(name);
+            } else {
+                printf("Invalid choice!\n");
+            }
             break;
 
         case 6:
