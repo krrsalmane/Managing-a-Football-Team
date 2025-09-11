@@ -70,6 +70,18 @@ struct Player addPlayer() {
     return p;
 }
 
+void sortPlayersByName() {
+    for (int i = 0; i < playerCount - 1; i++) {
+        for (int j = 0; j < playerCount - i - 1; j++) {
+            if (strcmp(team[j].lastName, team[j + 1].lastName) > 0) {
+                struct Player temp = team[j];
+                team[j] = team[j + 1];
+                team[j + 1] = temp;
+            }
+        }
+    }
+}
+
 void displayPlayers() {
     if (playerCount == 0) {
         printf("No players added yet!\n");
@@ -228,7 +240,7 @@ int main() {
             break;
 
         case 2:
-            printf("\n 1 - Display all Players\n");
+            printf("\n1 - Display all Players\n");
             printf("2 - Sort Players by Name\n");
             printf("3 - Sort Players by Age\n");
             printf("4 - Display Players by Position\n");
@@ -237,6 +249,7 @@ int main() {
 
             switch (choice2) {
             case 1:
+                sortPlayersByName();
                 displayPlayers();
                 break;
             case 2:
