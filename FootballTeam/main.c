@@ -246,10 +246,67 @@ void modifyPlayerPosition(int id) {
     }
 }
 
+void searchPlayerByID() {
+    int id, found = 0;
+    printf("Enter Player ID to search: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].id == id) {
+            printf("\nPlayer Found:\n");
+            printf("ID: %d\n", team[i].id);
+            printf("Name: %s %s\n", team[i].firstName, team[i].lastName);
+            printf("Shirt Number: %d\n", team[i].shirtNumber);
+            printf("Position: %s\n", team[i].position);
+            printf("Age: %d\n", team[i].age);
+            printf("Goals: %d\n", team[i].goals);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("No player found with ID: %d\n", id);
+    }
+}
+
+
 
 
 
 int main() {
+
+   struct Player fakeData[] = {
+        {1, 30, 50, 7, "Forward", "Cristiano", "Ronaldo"},
+        {2, 28, 40, 10, "Forward", "Lionel", "Messi"},
+        {3, 35, 0, 1, "Goalkeeper", "Manuel", "Neuer"},
+        {4, 32, 10, 4, "Defender", "Sergio", "Ramos"},
+        {5, 33, 15, 8, "Midfielder", "Luka", "Modric"},
+        {6, 25, 30, 9, "Forward", "Kylian", "Mbappe"},
+        {7, 29, 5, 6, "Midfielder", "NGolo", "Kante"},
+        {8, 31, 8, 5, "Defender", "Virgil", "VanDijk"},
+        {9, 27, 25, 11, "Forward", "Neymar", "Jr"},
+        {10, 34, 3, 3, "Defender", "Thiago", "Silva"},
+        {11, 26, 20, 17, "Midfielder", "Kevin", "DeBruyne"},
+        {12, 24, 0, 12, "Goalkeeper", "Gianluigi", "Donnarumma"},
+        {13, 29, 12, 14, "Midfielder", "Toni", "Kroos"},
+        {14, 27, 7, 2, "Defender", "Trent", "Arnold"},
+        {15, 23, 35, 19, "Forward", "Erling", "Haaland"},
+        {16, 25, 4, 15, "Defender", "Matthijs", "DeLigt"},
+        {17, 24, 18, 20, "Midfielder", "Bruno", "Fernandes"},
+        {18, 22, 22, 13, "Forward", "Vinicius", "Junior"},
+        {19, 28, 0, 23, "Goalkeeper", "Alisson", "Becker"},
+        {20, 30, 10, 16, "Midfielder", "Casemiro", ""}
+    };
+    playerCount = sizeof(fakeData) / sizeof(fakeData[0]);
+    for (int i = 0; i < playerCount; i++) {
+        team[i] = fakeData[i];
+    }
+    nextid = playerCount + 1;
+
+
+
+
     int choice, choice2;
 
     do {
@@ -318,7 +375,6 @@ int main() {
                 break;
             case 4:
                 displayPlayersByPosition();
-
                 break;
 
             default:
@@ -382,7 +438,7 @@ int main() {
             break;
 
         case 7:
-            printf(" ===   Sayonara   === !!!!\n");
+            printf(" ====   Sayonara   ==== !!!! \n");
             break;
 
         default:
