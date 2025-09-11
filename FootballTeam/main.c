@@ -105,6 +105,28 @@ void deletePlayer(int id) {
     }
 }
 
+void modifyPlayerAge(int id) {
+    int found = 0;
+    for (int i = 0; i < playerCount; i++) {
+        if (team[i].id == id) {
+            found = 1;
+            printf("Enter new age for player ID %d: ", id);
+            int newAge;
+            scanf("%d", &newAge);
+            if (newAge < 0) {
+                printf("Invalid age! Age must be non-negative.\n");
+                return;
+            }
+            team[i].age = newAge;
+            printf("Age updated successfully!\n");
+            break;
+        }
+    }
+    if (!found) {
+        printf("Player with ID %d not found!\n", id);
+    }
+}
+
 void modifyPlayerPosition(int id) {
     int found = 0;
     for (int i = 0; i < playerCount; i++) {
@@ -235,7 +257,7 @@ int main() {
                         modifyPlayerPosition(id);
                         break;
                     case 2:
-
+                        modifyPlayerAge( id);
                         break;
                     case 3:
 
