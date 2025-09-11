@@ -70,6 +70,20 @@ struct Player addPlayer() {
     return p;
 }
 
+void sortPlayersByAge() {
+    for (int i = 0; i < playerCount - 1; i++) {
+        for (int j = 0; j < playerCount - i - 1; j++) {
+            if (team[j].age > team[j + 1].age) {
+
+                // Swap players
+                struct Player temp = team[j];
+                team[j] = team[j + 1];
+                team[j + 1] = temp;
+            }
+        }
+    }
+}
+
 void sortPlayersByName() {
     for (int i = 0; i < playerCount - 1; i++) {
         for (int j = 0; j < playerCount - i - 1; j++) {
@@ -253,14 +267,13 @@ int main() {
                 displayPlayers();
                 break;
             case 2:
-                printf("Players sorted by Name:\n");
+                sortPlayersByAge();
+                displayPlayers();
                 break;
             case 3:
-                printf("Players sorted by Age:\n");
+
                 break;
-            case 4:
-                printf("Players by Position:\n");
-                break;
+
             default:
                 printf("Invalid choice!\n");
                 break;
