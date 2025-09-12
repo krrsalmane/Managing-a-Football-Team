@@ -17,8 +17,6 @@ int nextid = 1;
 struct Player team[MAX_PLAYERS];
 int playerCount = 0;
 
-
-
 int isShirtNumberUnique(int shirtNumber) {
     for (int i = 0; i < playerCount; i++) {
         if (team[i].shirtNumber == shirtNumber) {
@@ -38,14 +36,16 @@ struct Player addPlayer() {
     printf("Enter last name: ");
     scanf("%s", p.lastName);
     getchar();
+
+   do {
     printf("Enter shirt number: ");
     scanf("%d", &p.shirtNumber);
-    getchar();
+    while (getchar() != '\n');
+
     if (!isShirtNumberUnique(p.shirtNumber)) {
-        printf("Shirt number %d is already taken!\n", p.shirtNumber);
-        p.id = 0;
-        return p;
+        printf("Shirt number %d is already taken! Try again.\n", p.shirtNumber);
     }
+    } while (!isShirtNumberUnique(p.shirtNumber));
 
     int posChoice;
     printf("\nSelect position:\n");
